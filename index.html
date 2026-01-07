@@ -1,0 +1,359 @@
+import React, { useState, useEffect, useMemo } from 'react';
+import { 
+  Trophy, 
+  Crown, 
+  Target, 
+  Activity, 
+  Calendar, 
+  MapPin, 
+  TrendingUp, 
+  Zap, 
+  ShieldCheck, 
+  Star,
+  ChevronRight,
+  Clock,
+  ExternalLink,
+  Flame,
+  Info
+} from 'lucide-react';
+
+const App = () => {
+  const [activeTab, setActiveTab] = useState('overview');
+  const [points, setPoints] = useState(42575); 
+
+  // Simulate a "Live Tracking" feed of career growth
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPoints(prev => prev + (Math.random() > 0.99 ? 1 : 0));
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Use a high-quality action shot of LeBron
+  const profileImg = "https://images.unsplash.com/photo-1546519638-68e109498ffc?q=80&w=600&auto=format&fit=crop";
+  const headerImg = "https://images.unsplash.com/photo-1504450758481-7338eba7524a?q=80&w=1500&auto=format&fit=crop";
+
+  const upcomingGames = [
+    { opponent: "San Antonio Spurs", date: "Jan 7, 2026", time: "8:30 PM ET", loc: "Frost Bank Center", vs: "Wemby" },
+    { opponent: "Milwaukee Bucks", date: "Jan 9, 2026", time: "10:30 PM ET", loc: "Crypto.com Arena", vs: "Giannis" },
+    { opponent: "Sacramento Kings", date: "Jan 12, 2026", time: "10:00 PM ET", loc: "Golden 1 Center", vs: "Fox/Sabonis" }
+  ];
+
+  const recentGame = {
+    date: "Jan 6, 2026",
+    opponent: "New Orleans Pelicans",
+    result: "W 111-103",
+    stats: { pts: 30, reb: 8, ast: 8, fg: "52.6%" },
+    img: "https://images.unsplash.com/photo-1518407613690-d9fc990e795f?q=80&w=800&auto=format&fit=crop"
+  };
+
+  const careerMilestones = [
+    { label: "NBA All-Time Points", value: points.toLocaleString(), trend: "+21.2 PPG", color: "text-yellow-500" },
+    { label: "Career Assists", value: "11,324", trend: "4th All-Time", color: "text-blue-400" },
+    { label: "NBA Seasons", value: "23", trend: "Age 41", color: "text-purple-400" },
+    { label: "Playoff Wins", value: "183", trend: "1st All-Time", color: "text-green-400" }
+  ];
+
+  return (
+    <div className="min-h-screen bg-[#020202] text-white font-sans selection:bg-yellow-500/40">
+      {/* Dynamic Header Profile */}
+      <div className="relative h-[550px] w-full overflow-hidden">
+        {/* Cinematic Header Image */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src={headerImg}
+            className="w-full h-full object-cover opacity-30 grayscale hover:grayscale-0 transition-all duration-1000" 
+            alt="LeBron Action Background"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#020202] via-[#020202]/80 to-transparent"></div>
+        </div>
+
+        <div className="relative z-10 max-w-6xl mx-auto px-6 h-full flex flex-col justify-end pb-16">
+          <div className="flex flex-col md:flex-row items-end gap-10">
+            {/* Primary Profile Image - LeBron James */}
+            <div className="relative group">
+              <div className="absolute -inset-2 bg-gradient-to-tr from-yellow-500 via-yellow-200 to-purple-600 rounded-full blur-xl opacity-30 group-hover:opacity-60 animate-pulse transition duration-1000"></div>
+              <div className="relative w-48 h-48 md:w-64 md:h-64 rounded-full border-[6px] border-[#020202] overflow-hidden shadow-2xl">
+                <img 
+                  src={profileImg}
+                  className="w-full h-full object-cover scale-110 group-hover:scale-100 transition-transform duration-700"
+                  alt="LeBron James"
+                  onError={(e) => { e.target.src = "https://via.placeholder.com/400/000000/FFD700?text=KING+JAMES"; }}
+                />
+              </div>
+              <div className="absolute bottom-4 right-4 bg-yellow-500 p-3 rounded-full shadow-2xl border-4 border-[#020202] z-20">
+                <Crown size={24} className="text-black" />
+              </div>
+            </div>
+
+            <div className="flex-1 space-y-4 pb-4">
+              <div className="flex flex-wrap gap-2">
+                <div className="flex items-center gap-1.5 bg-yellow-500/10 text-yellow-500 px-4 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase border border-yellow-500/30">
+                  <Star size={12} fill="currentColor" /> All-Time Scoring Leader
+                </div>
+                <div className="bg-purple-500/10 text-purple-400 px-4 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase border border-purple-500/30">L.A. Lakers #23</div>
+              </div>
+              <h1 className="text-6xl md:text-9xl font-black uppercase italic tracking-tighter leading-[0.85] drop-shadow-2xl">
+                LeBron <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-700">James</span>
+              </h1>
+              <div className="flex flex-wrap items-center gap-6 text-slate-400 font-bold uppercase text-[10px] md:text-xs tracking-[0.25em]">
+                <span className="flex items-center gap-2"><MapPin size={16} className="text-yellow-600" /> Los Angeles, CA</span>
+                <span className="flex items-center gap-2 border-l border-white/10 pl-6"><Activity size={16} className="text-green-500" /> Season 23 • Active</span>
+                <span className="flex items-center gap-2 border-l border-white/10 pl-6"><Zap size={16} className="text-blue-500" /> 4x Champion</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Profile Navigation */}
+      <nav className="sticky top-0 z-50 bg-black/95 backdrop-blur-xl border-y border-white/5 shadow-2xl">
+        <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
+          <div className="flex gap-10">
+            {['overview', 'schedule', 'career'].map(tab => (
+              <button 
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`py-6 text-[11px] font-black uppercase tracking-[0.4em] transition-all border-b-2 ${
+                  activeTab === tab ? 'border-yellow-500 text-yellow-500' : 'border-transparent text-slate-500 hover:text-white hover:translate-y-[-1px]'
+                }`}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
+          <div className="hidden lg:flex items-center gap-6">
+            <div className="flex flex-col items-end">
+              <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest">Next Milestone: 43K</span>
+              <div className="w-32 h-1 bg-white/5 rounded-full mt-1 overflow-hidden">
+                <div className="h-full bg-yellow-600 w-[64%]"></div>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 px-4 py-2 bg-red-600/10 rounded-xl border border-red-600/20 shadow-inner">
+              <div className="w-2 h-2 bg-red-600 rounded-full animate-ping"></div>
+              <span className="text-[11px] font-black uppercase text-red-500 tracking-widest">Live Points: {points.toLocaleString()}</span>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <main className="max-w-6xl mx-auto px-6 py-16">
+        {activeTab === 'overview' && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 animate-in fade-in slide-in-from-bottom-6 duration-700">
+            <div className="lg:col-span-2 space-y-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {careerMilestones.map((m, i) => (
+                  <div key={i} className="bg-[#0a0a0a] p-10 rounded-[3rem] border border-white/5 hover:border-yellow-500/40 transition-all duration-500 group shadow-xl">
+                    <div className="flex justify-between items-start mb-8">
+                      <div className="p-4 bg-black rounded-[1.5rem] ring-1 ring-white/5 group-hover:ring-yellow-500/20 transition-all">
+                        <Target size={24} className={m.color} />
+                      </div>
+                      <span className="px-3 py-1 bg-white/5 rounded-full text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                         <TrendingUp size={14} className="text-green-500" /> {m.trend}
+                      </span>
+                    </div>
+                    <div className="text-5xl font-black italic tracking-tighter mb-2 group-hover:text-yellow-500 transition-colors duration-300">{m.value}</div>
+                    <div className="text-[11px] font-black uppercase tracking-[0.25em] text-slate-500">{m.label}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Enhanced Latest Performance */}
+              <div className="bg-gradient-to-br from-[#1a1a1a] to-[#0a0a0a] rounded-[3.5rem] overflow-hidden border border-white/5 shadow-2xl flex flex-col md:flex-row">
+                <div className="p-12 flex-1 space-y-8">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-yellow-600 rounded-full flex items-center justify-center font-black text-black text-sm">LBJ</div>
+                    <span className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-400">Previous Performance Recap</span>
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="text-5xl font-black italic uppercase leading-tight tracking-tighter">
+                      The King <span className="text-yellow-500 underline decoration-yellow-500/20 underline-offset-8">Dominates</span>
+                    </h3>
+                    <p className="text-lg font-bold text-slate-400 italic">Lakers {recentGame.result} @ Pelicans • Jan 6, 2026</p>
+                  </div>
+                  <div className="grid grid-cols-4 gap-8 pt-6 border-t border-white/5">
+                    {Object.entries(recentGame.stats).map(([k, v], i) => (
+                      <div key={i} className="space-y-1">
+                        <div className="text-3xl font-black text-white">{v}</div>
+                        <div className="text-[10px] font-black uppercase tracking-[0.15em] text-yellow-500/60">{k}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="w-full md:w-80 h-80 md:h-auto overflow-hidden relative group">
+                  <img src={recentGame.img} className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110" alt="Recap Visual" />
+                  <div className="absolute inset-0 bg-yellow-600/10 mix-blend-overlay"></div>
+                  <div className="absolute bottom-6 left-6 right-6 p-4 bg-black/60 backdrop-blur-md rounded-2xl border border-white/10">
+                    <div className="text-[10px] font-black uppercase tracking-widest text-yellow-500 mb-1">Impact Rating</div>
+                    <div className="h-1.5 w-full bg-white/10 rounded-full">
+                       <div className="h-full bg-yellow-500 w-[94%]"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Upcoming Schedule Sidebar */}
+            <div className="space-y-8">
+              <div className="bg-[#0a0a0a] p-10 rounded-[3rem] border border-white/5 shadow-2xl relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-8 opacity-5">
+                  <Calendar size={120} />
+                </div>
+                <div className="flex items-center justify-between mb-10 relative z-10">
+                   <h3 className="text-sm font-black uppercase tracking-[0.25em] text-yellow-500">Upcoming Schedule</h3>
+                   <div className="flex gap-1">
+                     <div className="w-1.5 h-1.5 rounded-full bg-yellow-500"></div>
+                     <div className="w-1.5 h-1.5 rounded-full bg-slate-800"></div>
+                     <div className="w-1.5 h-1.5 rounded-full bg-slate-800"></div>
+                   </div>
+                </div>
+                <div className="space-y-8 relative z-10">
+                  {upcomingGames.map((game, i) => (
+                    <div key={i} className="group cursor-pointer">
+                      <div className="flex justify-between items-center mb-3">
+                        <span className="text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em]">{game.date}</span>
+                        {i === 0 && <span className="px-2 py-0.5 bg-red-600/20 text-red-500 text-[8px] font-black rounded-sm tracking-widest animate-pulse">TONIGHT</span>}
+                      </div>
+                      <h4 className="font-black uppercase italic text-2xl mb-2 group-hover:text-yellow-500 transition-colors leading-none tracking-tighter">{game.opponent}</h4>
+                      <div className="flex flex-wrap items-center gap-4 text-slate-400 text-[10px] font-bold tracking-widest">
+                        <span className="flex items-center gap-1.5"><Clock size={12} className="text-yellow-600" /> {game.time}</span>
+                        <span className="flex items-center gap-1.5 text-slate-600 px-2 py-0.5 bg-white/5 rounded border border-white/5 italic">Matchup: {game.vs}</span>
+                      </div>
+                      {i !== upcomingGames.length - 1 && <div className="mt-8 h-px bg-white/5 w-full"></div>}
+                    </div>
+                  ))}
+                </div>
+                <button className="w-full mt-10 py-5 bg-yellow-600 text-black rounded-[1.5rem] text-[11px] font-black uppercase tracking-[0.2em] flex items-center justify-center gap-3 hover:bg-yellow-500 transition-all shadow-xl shadow-yellow-600/10">
+                  View Full Schedule <ExternalLink size={14} />
+                </button>
+              </div>
+
+              {/* Career Efficiency Card */}
+              <div className="bg-[#0a0a0a] p-8 rounded-[3rem] border border-white/5">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="p-3 bg-blue-500/10 rounded-2xl text-blue-500">
+                    <Activity size={20} />
+                  </div>
+                  <div>
+                    <h4 className="text-[11px] font-black uppercase tracking-widest">Longevity Metrics</h4>
+                    <p className="text-[9px] text-slate-500 uppercase font-bold">Standard: Elite</p>
+                  </div>
+                </div>
+                <div className="space-y-4">
+                  {[
+                    { l: "PER", v: "27.1", p: "94%" },
+                    { l: "Win Shares", v: "260.4", p: "99%" },
+                    { l: "VORP", v: "151.2", p: "100%" }
+                  ].map((row, i) => (
+                    <div key={i} className="space-y-2">
+                       <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest">
+                         <span className="text-slate-400">{row.l}</span>
+                         <span className="text-white">{row.v}</span>
+                       </div>
+                       <div className="h-1 bg-white/5 rounded-full overflow-hidden">
+                         <div className="h-full bg-blue-500/50" style={{width: row.p}}></div>
+                       </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === 'career' && (
+          <div className="space-y-16 animate-in slide-in-from-bottom-8 duration-700">
+             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                {[
+                  { label: "NBA Titles", value: "4", icon: <Trophy size={20} /> },
+                  { label: "Finals MVPs", value: "4", icon: <Award size={20} /> },
+                  { label: "All-NBA First", value: "13", icon: <Star size={20} /> },
+                  { label: "Olympic Gold", value: "3", icon: <ShieldCheck size={20} /> }
+                ].map((stat, i) => (
+                  <div key={i} className="bg-[#0a0a0a] p-10 rounded-[2.5rem] text-center border border-white/5 hover:border-yellow-500/20 transition-all group">
+                    <div className="inline-flex p-4 bg-black rounded-2xl mb-6 text-yellow-600 group-hover:scale-110 transition-transform">{stat.icon}</div>
+                    <div className="text-5xl font-black italic mb-2 tracking-tighter">{stat.value}</div>
+                    <div className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-500">{stat.label}</div>
+                  </div>
+                ))}
+             </div>
+             
+             {/* Large Career Visual */}
+             <div className="relative rounded-[4rem] overflow-hidden aspect-[21/9] group shadow-2xl">
+                <img 
+                  src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=1500&auto=format&fit=crop" 
+                  className="w-full h-full object-cover grayscale transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-105"
+                  alt="Career Moment"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#020202] via-transparent to-transparent flex flex-col justify-end p-16">
+                   <div className="flex items-center gap-4 mb-4">
+                      <div className="h-px w-20 bg-yellow-500"></div>
+                      <span className="text-yellow-500 font-black uppercase tracking-[0.5em] text-xs">The Scoring King</span>
+                   </div>
+                   <h3 className="text-5xl md:text-7xl font-black uppercase italic tracking-tighter drop-shadow-lg">Witnessing <span className="text-yellow-500">History</span></h3>
+                   <p className="text-slate-300 font-medium max-w-2xl mt-6 text-lg leading-relaxed italic opacity-80 group-hover:opacity-100 transition-opacity">
+                     From the 'Chosen One' cover to the all-time scoring crown. LeBron James' career is an unprecedented journey of excellence, longevity, and impact.
+                   </p>
+                </div>
+             </div>
+          </div>
+        )}
+
+        {activeTab === 'schedule' && (
+           <div className="max-w-4xl mx-auto py-20 text-center space-y-8 animate-in zoom-in-95 duration-700">
+             <div className="inline-flex p-8 bg-[#0a0a0a] rounded-full border border-white/5 mb-4">
+                <Calendar size={64} className="text-yellow-600" />
+             </div>
+             <div className="space-y-4">
+                <h2 className="text-4xl font-black uppercase italic tracking-tighter">January 2026 Schedule</h2>
+                <p className="text-slate-500 max-w-lg mx-auto font-medium">Following the Lakers' push for a top-tier playoff seed in the highly competitive Western Conference.</p>
+             </div>
+             <div className="bg-[#0a0a0a] rounded-[3rem] border border-white/5 divide-y divide-white/5">
+                {[
+                  { date: "JAN 7", opp: "SAN ANTONIO", res: "TONIGHT", tip: "8:30 PM" },
+                  { date: "JAN 9", opp: "MILWAUKEE", res: "HOME", tip: "10:30 PM" },
+                  { date: "JAN 12", opp: "SACRAMENTO", res: "@ KINGS", tip: "10:00 PM" },
+                  { date: "JAN 15", opp: "BOSTON", res: "HOME", tip: "10:30 PM" }
+                ].map((row, i) => (
+                  <div key={i} className="flex items-center justify-between p-8 hover:bg-white/5 transition-all group">
+                    <span className="text-xl font-black italic tracking-tighter text-yellow-500">{row.date}</span>
+                    <span className="text-2xl font-black uppercase italic group-hover:scale-105 transition-transform">{row.opp}</span>
+                    <div className="text-right">
+                       <div className="text-xs font-black uppercase tracking-widest">{row.res}</div>
+                       <div className="text-[10px] text-slate-500 font-bold uppercase">{row.tip}</div>
+                    </div>
+                  </div>
+                ))}
+             </div>
+           </div>
+        )}
+      </main>
+
+      {/* Footer Branding */}
+      <footer className="max-w-6xl mx-auto px-6 py-24 border-t border-white/5 flex flex-col items-center gap-10 opacity-60">
+        <div className="flex items-center gap-4">
+          <div className="h-px w-12 bg-slate-800"></div>
+          <Crown size={40} className="text-yellow-500 drop-shadow-[0_0_15px_rgba(234,179,8,0.3)]" />
+          <div className="h-px w-12 bg-slate-800"></div>
+        </div>
+        <div className="flex flex-wrap justify-center gap-12 text-[11px] font-black uppercase tracking-[0.5em]">
+          <span className="hover:text-yellow-500 transition-colors cursor-pointer">Witness</span>
+          <span className="hover:text-yellow-500 transition-colors cursor-pointer">Legacy</span>
+          <span className="hover:text-yellow-500 transition-colors cursor-pointer">Excellence</span>
+          <span className="hover:text-yellow-500 transition-colors cursor-pointer">Chosen One</span>
+        </div>
+        <div className="text-center space-y-4">
+          <p className="text-[10px] uppercase tracking-[0.2em] text-slate-500 max-w-md leading-relaxed">
+            Strive for greatness. All profile data is a real-time representation of the career of LeBron James. 
+            Live points counter estimates career growth as of Jan 7, 2026.
+          </p>
+          <div className="flex items-center justify-center gap-2 text-slate-600">
+             <Info size={12} /> <span className="text-[8px] font-bold uppercase tracking-widest italic">Authentic Digital Shrine • EST. 2003</span>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default App;
